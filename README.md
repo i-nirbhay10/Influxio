@@ -53,4 +53,4 @@ cd influxio
 npm install
 
 # Run the app (Expo)
-npx expo start
+npx run android
