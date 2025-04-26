@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   responsiveHeight as hp,
   responsiveWidth as wp,
@@ -29,6 +29,7 @@ const CampaignCard = ({
     'https://woorise.com/wp-content/uploads/2021/01/types-of-marketing-campaigns.png',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThoKoFZleJgFBizvs1WhCu37QpT86r09sRDf6RWPxdqeZ4crJ2otv0YSvYoqWcbSDZ4jU&usqp=CAU',
     'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0',
+    'https://picsum.photos/512/512',
   ];
 
   // Function to get a random image

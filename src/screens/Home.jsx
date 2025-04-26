@@ -127,7 +127,7 @@ const Home = ({navigation}) => {
           style={[styles.SortButton, {alignItems: 'center'}]}
           onPress={() => setDisplayMode(!displayMode)}>
           <Text style={{color: '#fff'}}>
-            {displayMode ? 'stack' : 'card'} mode
+            {displayMode ? 'stack mode' : 'card mode'}
           </Text>
         </TouchableOpacity>
       </View>

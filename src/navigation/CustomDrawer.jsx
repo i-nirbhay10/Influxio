@@ -50,6 +50,11 @@ const CustomDrawer = props => {
             label="Know About Developer"
             onPress={() => props.navigation.navigate('AboutDeveloper')}
           />
+          {/* <DrawerItem
+            icon="bell"
+            label="NotificationScreen"
+            onPress={() => props.navigation.navigate('NotificationScreen')}
+          /> */}
         </>
       )}
 
@@ -82,8 +87,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgb(235, 226, 226)',
-    paddingVertical: 12,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
     borderRadius: 8,
     marginBottom: 15,
     shadowColor: '#000',

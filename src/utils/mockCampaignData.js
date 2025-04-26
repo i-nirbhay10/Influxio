@@ -197,6 +197,7 @@ export const mockCampaignData = [
     campaignType: 'Seasonal',
     status: 'Live',
     targetAudience: 'Beverage lovers, young adults, families',
+    spend: 3000,
     isfavorites: null,
     platform: 'Instagram',
     endDate: '2025-03-10',

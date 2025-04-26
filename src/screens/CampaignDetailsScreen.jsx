@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,14 +11,17 @@ import {
 } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import Icon from 'react-native-vector-icons/FontAwesome'; // FontAwesome Icon
+import notifee, {AndroidStyle} from '@notifee/react-native';
 
 const CampaignDetailsScreen = ({route}) => {
   const {item} = route.params;
 
+  console.log(item);
+
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `🎉 Check out "${item.campaignName}" by ${item.brandName}!\n\n${item.description} APK: https://drive.google.com/file/d/1WKXpMe6fPU-J923M45n0lD72tlm_TZ7A/view?usp=drive_link`,
+        message: `🎉 Check out "${item.campaignName}" by ${item.brandName}!\n\n${item.description} APK: https://drive.google.com/drive/folders/1Raz9yw7XZ4UZ2Yq66sVnUWj6rbdDekh3?usp=drive_link`,
       });
       if (result.action === Share.sharedAction && !result.activityType) {
         console.log('Campaign shared successfully!');
@@ -27,6 +30,70 @@ const CampaignDetailsScreen = ({route}) => {
       Alert.alert('Error', error.message);
     }
   };
+
+  async function onDisplayNotification() {
+    // Request permissions (required for iOS)
+    // await notifee.requestPermission();
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+    console.log('hit 2');
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Wooo',
+      body: `${item.campaignName} campain is live grab the oportunety`,
+      android: {
+        channelId,
+        style: {
+          type: AndroidStyle.BIGPICTURE,
+          picture: item.brandImg,
+        },
+        // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
+
+  // async function onDisplayNotification() {
+  //   // Request permissions (required for iOS)
+  //   await notifee.requestPermission();
+  //   console.log('hit 2');
+
+  //   // Create a channel (required for Android)
+  //   const channelId = await notifee.createChannel({
+  //     id: 'default',
+  //     name: 'Default Channel',
+  //   });
+
+  //   // Display a notification
+  //   await notifee.displayNotification({
+  //     title: 'Notification Title',
+  //     body: 'Main body content of the notification',
+  //     android: {
+  //       channelId,
+  //       smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+  //       // pressAction is needed if you want the notification to open the app when pressed
+  //       pressAction: {
+  //         id: 'default',
+  //       },
+  //     },
+  //   });
+  // }
+
+  useEffect(() => {
+    if (item.status === 'Live' || item.status === 'live') {
+      console.log('hit 1');
+
+      onDisplayNotification();
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -69,10 +136,16 @@ const CampaignDetailsScreen = ({route}) => {
               {item.startDate} To {item.endDate}
             </Text>
             {item.location && (
-              <Text style={styles.timelineText}>
-                <Icon name="map-marker" size={14} color="#fff" /> Location:{' '}
-                {item.location}
-              </Text>
+              <>
+                <Text style={styles.heading}>
+                  <Icon name="calendar" size={16} color="rgb(252, 252, 252)" />{' '}
+                  Location
+                </Text>
+                <Text style={styles.timelineText}>
+                  <Icon name="map-marker" size={14} color="#fff" /> :{' '}
+                  {item.location}
+                </Text>
+              </>
             )}
           </View>
 
@@ -82,7 +155,7 @@ const CampaignDetailsScreen = ({route}) => {
               <Icon name="rupee" size={16} color="rgb(252, 252, 252)" /> Erning
               Capecity
             </Text>
-            <Text style={styles.infoText}>up to {item.spend}</Text>
+            <Text style={styles.infoText}>Up to {item.spend}</Text>
           </View>
 
           {/* Target Audience Section */}
@@ -118,9 +191,9 @@ const CampaignDetailsScreen = ({route}) => {
         </View>
       </TouchableOpacity>
 
-      {item.status === 'Live' && (
+      {/* {item.status === 'Live' && (
         <ConfettiCannon count={400} origin={{x: -10, y: 0}} fadeOut={true} />
-      )}
+      )} */}
     </View>
   );
 };
@@ -153,10 +226,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   detailsContainer: {
-    marginVertical: 20,
+    marginTop: 10,
     backgroundColor: 'rgb(252, 252, 252)',
     padding: 20,
-    paddingBottom: 50,
+    paddingBottom: 65,
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
   },

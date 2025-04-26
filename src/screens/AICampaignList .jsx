@@ -15,6 +15,8 @@ import {
 import CampaignCard from '../components/CampaignCard';
 import Geolocation from '@react-native-community/geolocation';
 import AndroidOpenSettings from 'react-native-android-open-settings';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {GOOGLE_GENAI_API_KEY} from '@env';
 
 const AICampaignList = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +25,7 @@ const AICampaignList = ({navigation}) => {
   const [liveDetails, setLiveDetails] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const getCurrentLocation = async () => {
+  const getCurrentLocation = async ({navigation}) => {
     try {
       Geolocation.getCurrentPosition(
         async position => {
@@ -120,7 +122,7 @@ const AICampaignList = ({navigation}) => {
 
     try {
       const response = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyArEFj24YL2yiqKXNWFOTzjlw1Ya5lgezI',
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GOOGLE_GENAI_API_KEY}`,
         {
           method: 'POST',
           headers: {
@@ -142,7 +144,7 @@ const AICampaignList = ({navigation}) => {
                     "startDate" (string): Campaign start date in YYYY-MM-DD format.
                     "endDate" (string): Campaign end date in YYYY-MM-DD format.
                     "targetAudience" (string): The key demographic(s) or audience targeted.
-                    "compensation" (string): Details on influencer payment or rewards (e.g., "₹X per post", "Product gifting + ₹Y", "Commission-based").
+                    "spend" (string): Details on influencer payment or rewards (e.g., "₹X per post", "Product gifting + ₹Y", "Commission-based").
                     "deliverables" (array of strings): List of specific content or tasks required from the influencer (e.g., ["1 Instagram reel", "3 Story mentions"]).
                     "participationProcess" (string): Instructions on how an influencer can discover and apply for the campaign on the specified platform.
                     "brandLogo" (string): URL to the brand's logo (can be a placeholder or descriptive if unknown).
@@ -251,7 +253,15 @@ const AICampaignList = ({navigation}) => {
         </View>
       ) : (
         <View style={styles.container}>
-          <Text style={styles.header}>AI Campaigns in {liveDetails.city}</Text>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="arrow-back" size={20} color="#fff" />
+            </TouchableOpacity>
+            <Text style={styles.title}>Campaigns Powerd by AI </Text>
+            <Icon name="auto-awesome" size={20} color="#fff" />
+          </View>
+
+          {/* <Text style={styles.header}>AI Campaigns in {liveDetails.city}</Text> */}
 
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -270,14 +280,20 @@ export default AICampaignList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 16,
     backgroundColor: 'rgb(0, 0, 0)',
   },
   header: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    flexDirection: 'row',
+    alignItems: 'center',
+
     marginBottom: 16,
+  },
+  title: {
+    fontSize: 18,
     color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
 });

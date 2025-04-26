@@ -8,6 +8,7 @@ import AICampaignList from '../screens/AICampaignList ';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CustomDrawer from './CustomDrawer';
 import AboutDeveloperScreen from '../screens/AboutDeveloperScreen';
+import NotificationScreen from '../screens/NotificationScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -40,6 +41,10 @@ const Navigation = () => {
         <Drawer.Screen
           name="CampaignDetailsScreen"
           component={CampaignDetailsScreen}
+        />
+        <Drawer.Screen
+          name="NotificationScreen"
+          component={NotificationScreen}
         />
       </Drawer.Navigator>
     </NavigationContainer>
